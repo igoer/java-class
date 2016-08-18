@@ -34,34 +34,34 @@ ExecutorService关闭后将不再接收新的任务，ExecutorService提供了�
 submit方法是基于Executor.execute()方法之上的，通过创建并返回一个Future对象就可以实现取消执行或者等待执行完成。invokeAny和invokeAll通常是用于批量执行，可以提交一个task集合并等待task的逐个完成。
 
 ExecutorService接口中定义的方法如下：
-####void shutdown();
+###void shutdown();
 不再接收新的task,执行完之前提交的task后，开始有序的终止线程。
 
-####List<Runnable> shutdownNow();
+###List<Runnable> shutdownNow();
 试图终止所有活动的执行任务，停止对等待任务的处理，并返回待执行的Runnable列表。
 但是，不能保证能够终止掉所有的正在执行的任务。比如，在典型的实现中会调用Thread.interupt来作取消，但是一些不能响应中断的task将永远不会被终止。
 
-####boolean isShutdown();
+###boolean isShutdown();
 如果Executor调用shutdown或者shutdownNow将返回true。
 
-####boolean isTerminated();
+###boolean isTerminated();
 所有的任务都关闭后，线程池才会关闭成功。届时返回true
 
-####boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+###boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
 发起关闭请求后，将一直阻塞等待关闭，直到所有的task已执行完成。
 如果超时返回，或者当前线程中断时， 则返回false。
 
-####< T > Future< T > submit(Callable< T > task);
-####< T > Future< T > submit(Runnable task, T result);
+###< T > Future< T > submit(Callable< T > task);
+###< T > Future< T > submit(Runnable task, T result);
 提交一个等待返回值的task,返回的Future表示task执行后的待定结果。执行成功后，Future的get方法将返回实际的结果。
 
-####Future<?> submit(Runnable task);
+###Future<?> submit(Runnable task);
 提交一个Runnable任务并返回一个Future。不过Future.get方法将返回null。
 
-####<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>>tasks)throws InterruptedException;
+###<T> List<Future<T>> invokeAll(Collection<? extends Callable<T>>tasks)throws InterruptedException;
 执行提交的task集合。当执行完成后，返回task各自的Future。对应返回的Future集合，Future.isDone方法将返回true。
 
-####<T> T invokeAny(Collection<? extends Callable<T>> tasks)throws InterruptedException, ExecutionException;
+###<T> T invokeAny(Collection<? extends Callable<T>> tasks)throws InterruptedException, ExecutionException;
 执行提交的task集合，返回一个task成功执行后的结果,而其他没有执行完成的task将被取消。
 
 
@@ -152,7 +152,7 @@ handler有四个选择：
 ##使用Executors创建线程池
 java.util.concurrent.Executors工具类提供了基本的线程池创建方法，可以使用该工具类进行线程池的创建。当然你也可以通过构造函数创建符合自己要求的线程池。
 
-####newFixedThreadPool()
+###newFixedThreadPool()
 创建线程数固定大小的线程池，由于使用了LinkedBlockingQueue所以maximumPoolSize没用，当corePoolSize满了之后就加入到LinkedBlockingQueue队列中。每当某个线程执行完成之后就从LinkedBlockingQueue队列中取一个。所以这个是创建固定大小的线程池。
 ```
 public static ExecutorService newFixedThreadPool(int nThreads) {
@@ -162,7 +162,7 @@ public static ExecutorService newFixedThreadPool(int nThreads) {
 }
 ```
 
-####newSingleThreadPool()
+###newSingleThreadPool()
 创建线程数为1的线程池，由于使用了LinkedBlockingQueue所以maximumPoolSize没用，corePoolSize为1表示线程数大小为1,满了就放入队列中，执行完了就从队列取一个。
 ```
 public static ExecutorService newSingleThreadExecutor() {
@@ -173,7 +173,7 @@ public static ExecutorService newSingleThreadExecutor() {
 }
 ```
 
-####newCachedThreadPool()
+###newCachedThreadPool()
 创建可缓冲的线程池，没有大小限制。由于corePoolSize为0所以任务会放入SynchronousQueue队列中，SynchronousQueue只能存放大小为1，所以会立刻新起线程，由于maxumumPoolSize为Integer.MAX_VALUE所以可以认为大小为2147483647。受内存大小限制。
 ```
 public static ExecutorService newCachedThreadPool() {
