@@ -162,7 +162,7 @@ handler有四个选择：
 ##使用Executors创建线程池
 java.util.concurrent.Executors工具类提供了基本的线程池创建方法，可以使用该工具类进行线程池的创建。当然你也可以通过构造函数创建符合自己要求的线程池。
 
-> newFixedThreadPool()
+> static ExecutorService newFixedThreadPool()
 
 创建线程数固定大小的线程池，由于使用了LinkedBlockingQueue所以maximumPoolSize没用，当corePoolSize满了之后就加入到LinkedBlockingQueue队列中。每当某个线程执行完成之后就从LinkedBlockingQueue队列中取一个。所以这个是创建固定大小的线程池。
 ```
@@ -173,7 +173,7 @@ public static ExecutorService newFixedThreadPool(int nThreads) {
 }
 ```
 
-> newSingleThreadPool()
+> static ExecutorService newSingleThreadPool()
 
 创建线程数为1的线程池，由于使用了LinkedBlockingQueue所以maximumPoolSize没用，corePoolSize为1表示线程数大小为1,满了就放入队列中，执行完了就从队列取一个。
 ```
@@ -185,7 +185,7 @@ public static ExecutorService newSingleThreadExecutor() {
 }
 ```
 
-> newCachedThreadPool()
+> static ExecutorService newCachedThreadPool()
 
 创建可缓冲的线程池，没有大小限制。由于corePoolSize为0所以任务会放入SynchronousQueue队列中，SynchronousQueue只能存放大小为1，所以会立刻新起线程，由于maxumumPoolSize为Integer.MAX_VALUE所以可以认为大小为2147483647。受内存大小限制。
 ```
