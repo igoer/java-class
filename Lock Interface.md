@@ -55,7 +55,7 @@ public interface Lock {
 
 在Lock中声明了四个方法来获取锁，那么这四个方法有何区别呢？
 
-> 1) void lock()
+> void lock()
 
 lock 方法是平常使用得最多的一个方法，就是用来获取锁。如果锁已被其他线程获取，则进行等待。
 
