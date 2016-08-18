@@ -84,10 +84,10 @@ All Known Implementing Classes:
 这也是我们在多线程环境下，为什么需要BlockingQueue的原因。作为BlockingQueue的使用者，我们再也不需要关心什么时候需要阻塞线程，什么时候需要唤醒线程，因为这一切BlockingQueue都给你一手包办了。
 
 ##BlockingQueue 核心方法：
-####boolean offer (E e)
+> boolean offer (E e)
 表示如果可能的话，将e加到BlockingQueue里，即如果BlockingQueue可以容纳，则返回true，否则返回false。（本方法不阻塞当前执行方法的线程）
 
-####boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException
+> boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException
 可以设定等待的时间，如果在指定的时间内，还不能往队列中加入BlockingQueue，则返回失败。（本方法不阻塞当前执行方法的线程）
 
 ####void put (E e) throws InterruptedException
