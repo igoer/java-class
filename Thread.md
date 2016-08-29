@@ -10,7 +10,7 @@ Direct Known Subclasses:
 	ForkJoinWorkerThread
 ```
 ##构造方法
-```
+```java
 Thread()
 
 Thread(Runnable target)
@@ -122,7 +122,7 @@ Thread线程的6种状态为一个 **java.lang.Thread.State** 的枚举类型，
 
 ## 常用 Api
 Thread 部分源码如下：
-```
+```java
 public class Thread inplements Runnable {
 
 	private static native void registerNatives();
@@ -153,14 +153,14 @@ target 表示要执行的任务。
 ###线程基本属性方法
 > getId()
 
-```
+```java
 public long getId()
 ```
 用来获取线程的ID
 
 > getName()、setName(String name)
 
-```
+```java
 public final String getName()
 
 public final void setName(String name)
@@ -169,7 +169,7 @@ public final void setName(String name)
 
 > getPriority()、setPriority(int newPriority)
 
-```
+```java
 public final int getPriority()
 
 public final void setPriority(int newPriority)
@@ -178,7 +178,7 @@ public final void setPriority(int newPriority)
 
 > setDaemon()、isDaemon()
 
-```
+```java
 public final void setDaemon(boolean on)
 
 public final boolean isDaemon()
@@ -193,14 +193,14 @@ public final boolean isDaemon()
 
 > start()
 
-```
+```java
 public void start()
 ```
 start()用来启动一个线程，当调用start方法后，系统才会开启一个新的线程来执行用户定义的子任务，在这个过程中，会为相应的线程分配需要的资源。
 
 > run()
 
-```
+```java
 public void run()
 ```
 实现 Runnable interface 方法
@@ -209,7 +209,7 @@ run()方法是不需要用户来调用的，当通过start方法启动一个线�
 
 > sleep()
 
-```
+```java
 public static void sleep(long millis) throws InterruptedException
 
 public static void sleep(long millis,int nanos) throws InterruptedException
@@ -219,7 +219,7 @@ sleep相当于让线程睡眠，交出CPU，让CPU去执行其他的任务。
 但是有一点要非常注意，sleep方法不会释放锁，也就是说如果当前线程持有对某个对象的锁，则即使调用sleep方法，其他线程也无法访问这个对象。
 
 例子如下：
-```
+```java
 public static void main(String[] args) throws InterruptedException {
     Object obj = new Object();
 
@@ -265,7 +265,7 @@ Thread-1 释放了 obj 锁
 
 > yield()
 
-```
+```java
 public static void yield()
 ```
 调用yield方法会让当前线程交出CPU权限，让CPU去执行其他的线程。它跟sleep方法类似，同样不会释放锁。
@@ -276,7 +276,7 @@ public static void yield()
 
 > join()
 
-```
+```java
 public final void join() throws InterruptedException
 
 public final void join(long millis) throws InterruptedException
@@ -286,7 +286,7 @@ public final void join(long millis, int nanos) throws InterruptedException
 假如在main线程中，调用thread.join方法，则main方法会等待thread线程执行完毕或者等待一定的时间。如果调用的是无参join方法，则等待thread执行完毕，如果调用的是指定了时间参数的join方法，则等待一定的事件。
 
 例子如下：
-```
+```java
 public static void main(String[] args) throws InterruptedException {
     Thread t = new Thread(new Runnable() {
         @Override
@@ -324,14 +324,14 @@ main thread over
 
 > interrupt()
 
-```
+```java
 public void interrupt()
 
 ```
 interrupt，顾名思义，即中断的意思。单独调用interrupt方法可以使得处于阻塞状态的线程抛出一个异常，也就说，它可以用来中断一个正处于阻塞状态的线程；另外，通过interrupt方法和isInterrupted()方法来停止正在运行的线程。
 
 例子如下：
-```
+```java
 public static void main(String[] args) throws InterruptedException {
     Thread t = new Thread(new Runnable() {
         @Override
@@ -366,7 +366,7 @@ Thread-0 执行完毕
 从这里可以看出，通过interrupt方法可以中断处于阻塞状态的线程。那么能不能中断处于非阻塞状态的线程呢？
 
 看下面这个例子：
-```
+```java
 public static void main(String[] args) throws InterruptedException {
     Thread t = new Thread(new Runnable() {
         @Override
@@ -388,7 +388,7 @@ public static void main(String[] args) throws InterruptedException {
 但是如果配合isInterrupted()能够中断正在运行的线程，因为调用interrupt方法相当于将中断标志位置为true，那么可以通过调用isInterrupted()判断中断标志是否被置位来中断线程的执行。
 
 比如下面这段代码：
-```
+```java
 public static void main(String[] args) throws InterruptedException {
     Thread t = new Thread(new Runnable() {
         @Override
