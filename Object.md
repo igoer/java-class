@@ -4,7 +4,7 @@ Object类是所有Java类的祖先。每个类都使用 Object 作为超类。�
 在不明确给出超类的情况下，Java会自动把Object作为要定义类的超类。可以使用类型为Object的变量指向任意类型的对象。Object类有一个默认构造方法pubilc Object()，在构造子类实例时，都会先调用这个默认构造方法。
 
 Object类的变量只能用作各种值的通用持有者。要对他们进行任何专门的操作，都需要知道它们的原始类型并进行类型转换。例如：
-```
+```java
 Object obj = new MyObject();
 MyObject x = (MyObject)obj;
 ```
@@ -59,7 +59,7 @@ MyObject x = (MyObject)obj;
 导致当前的线程等待，直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量。
 
 ##clone()
-```
+```java
 protected Object clone() throws CloneNotSupportedException
 ```
 创建并返回此对象的一个副本。“副本”的准确含义可能依赖于对象的类。一般来说，对于任何对象 x，如果表达式：
@@ -87,13 +87,13 @@ Object 类本身不实现接口 Cloneable，所以在类为 Object 的对象上�
 clone() 方法是protected修饰的，覆写clone()方法的时候需要写成public，才能让类外部的代码调用。
 
 ## equals(Object obj)
-```
+```java
 public boolean equals(Object obj)
 ```
 子类覆写equals()方法时，应该同时覆写hashCode()方法，反之亦然。
 
 用于测试某个对象是否同另一个对象相等，它在Object类中的实现是判断两个对象是否指向同一块内存区域。
-```
+```java
 public boolean equals(Object obj) {
 	return (this == obj);
 }
@@ -101,7 +101,7 @@ public boolean equals(Object obj) {
 这中测试用处不大，因为即使内容相同的对象，内存区域也是不同的。如果想测试对象是否相等，就需要覆盖此方法，进行更有意义的比较。
 
 例如：
-```
+```java
 class Employee{
 	//此例子来自《java核心技术》卷一
     public boolean equals(Object otherObj){
@@ -166,7 +166,7 @@ public final Class<?> getClass()
 利用这个方法就可以获得一个实例的类型类。类型类指的是代表一个类型的类，因为一切皆是对象，类型也不例外，在Java使用类型类来表示一个类型。所有的类型类都是Class类的实例。
 
 例如，有如下一段代码：
-```
+```java
 A a = new A();
 
 if(a.getClass()==A.class) {
@@ -189,14 +189,14 @@ public String toString()
 当打印引用，如调用System.out.println()时，会自动调用对象的toString()方法，打印出引用所指的对象的toString()方法的返回值，因为每个类都直接或间接地继承自Object，因此每个类都有toString()方法。
 
 Object类中的toString()方法定义如下：
-```
+```java
 public String toString() {
     return getClass().getName() + "@" + Integer.toHexString(hashCode());
 }
 ```
 
 ##wait, notfiy, notfiyAll
-```
+```java
 /**
  * 随机选择一个在该对象上调用wait方法的线程，解除其阻塞状态。该方法只能在同步方法或同步块内部调用。
  * 如果当前线程不是锁的持有者，该方法抛出一个IllegalMonitorStateException异常。
@@ -258,7 +258,7 @@ nofityAll()方法能够唤醒所有正在等待该对象的monitor的线程，�
 上面尤其要注意一点，一个线程被唤醒不代表立即获取了对象的monitor，只有等调用完notify()或者notifyAll()并退出synchronized块，释放对象锁后，其余线程才可获得锁执行。
 
 下面看一个简单的示例：
-```
+```java
 public class XS {
 
 	private Object obj = new Object();
