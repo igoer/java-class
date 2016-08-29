@@ -41,7 +41,7 @@ java.util.concurrent.locks
 All Known Implementing Classes:
 	ReentrantLock, ReentrantReadWriteLock.ReadLock, ReentrantReadWriteLock.WriteLock
 ```
-```
+```java
 public interface Lock {
     void lock();
     void lockInterruptibly() throws InterruptedException;
@@ -60,7 +60,7 @@ public interface Lock {
 lock 方法是平常使用得最多的一个方法，就是用来获取锁。如果锁已被其他线程获取，则进行等待。
 
 由于在前面讲到如果采用Lock，必须主动去释放锁，并且在发生异常时，不会自动释放锁。因此一般来说，使用Lock必须在try{}catch{}块中进行，并且将释放锁的操作放在finally块中进行，以保证锁一定被被释放，防止死锁的发生。通常使用Lock来进行同步的话，是以下面这种形式去使用的：
-```
+```java
 Lock lock = ...;
 lock.lock();
 try{
@@ -80,7 +80,7 @@ tryLock方法是有返回值的，它表示用来尝试获取锁，如果获取�
 tryLock()方法是类似的，只不过区别在于这个方法在拿不到锁时会等待一定的时间，在时间期限之内如果还拿不到锁，就返回false。如果如果一开始拿到锁或者在等待期间内拿到了锁，则返回true。
 
 所以，一般情况下通过tryLock来获取锁时是这样使用的：
-```
+```java
 Lock lock = ...;
 if(lock.tryLock()) {
      try{
@@ -102,7 +102,7 @@ if(lock.tryLock()) {
 由于lockInterruptibly()的声明中抛出了异常，所以lock.lockInterruptibly()必须放在try块中或者在调用lockInterruptibly()的方法外声明抛出InterruptedException。
 
 因此lockInterruptibly()一般的使用形式如下：
-```
+```java
 public void method() throws InterruptedException {
     lock.lockInterruptibly();
     try {
@@ -125,7 +125,7 @@ ReentrantLock是唯一实现了Lock接口的类，并且ReentrantLock提供了�
 ReentrantLock，意思是“可重入锁”，关于可重入锁的概念在下一节讲述。下面通过一些实例看具体看一下如何使用ReentrantLock。
 
 **例子1，lock()的正确使用方法：**
-```
+```java
 public class Test {
     private ArrayList<Integer> arrayList = new ArrayList<Integer>();
     public static void main(String[] args)  {
@@ -172,7 +172,7 @@ Thread-1释放了锁
 
 知道了原因改起来就比较容易了，只需要将lock声明为类的属性即可。
 
-```
+```java
 public class Test {
 
     private ArrayList<Integer> arrayList = new ArrayList<Integer>();
@@ -214,7 +214,7 @@ public class Test {
 这样就是正确地使用Lock的方法了。
 
 **例子2，tryLock()的使用方法**
-```
+```java
 public class Test {
     private ArrayList<Integer> arrayList = new ArrayList<Integer>();
     private Lock lock = new ReentrantLock();    //注意这个地方
@@ -261,7 +261,7 @@ Thread-0释放了锁
 ```
 
 **例子3，lockInterruptibly()响应中断的使用方法：**
-```
+```java
 public class Test {
     private Lock lock = new ReentrantLock();
     public static void main(String[] args)  {
@@ -318,7 +318,7 @@ class MyThread extends Thread {
 
 ##ReadWriteLock Interface
 ReadWriteLock也是一个接口，在它里面只定义了两个方法：
-```
+```java
 public interface ReadWriteLock {
     /**
      * Returns the lock used for reading.
@@ -341,7 +341,7 @@ public interface ReadWriteLock {
 ReentrantReadWriteLock里面提供了很多丰富的方法，不过最主要的有两个方法：readLock()和writeLock()用来获取读锁和写锁，下面通过几个例子来看一下ReentrantReadWriteLock具体用法。
 
 假如有多个线程要同时进行读操作的话，先看一下synchronized达到的效果：
-```
+```java
 public class Test {
 
     public static void main(String[] args)  {
@@ -394,7 +394,7 @@ Thread-1正在进行读操作
 Thread-1读操作完毕
 ```
 而改成用读写锁的话：
-```
+```java
 public class Test {
     private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 
@@ -485,7 +485,7 @@ PS：（在资源竞争不是很激烈的情况下，Synchronized的性能要优
 如果锁具备可重入性，则称作为可重入锁。像synchronized和ReentrantLock都是可重入锁，可重入性在我看来实际上表明了锁的分配机制：基于线程的分配，而不是基于方法调用的分配。举个简单的例子，当一个线程执行到某个synchronized方法时，比如说method1，而在method1中会调用另外一个synchronized方法method2，此时线程不必重新去申请锁，而是可以直接执行方法method2。
 
 看下面这段代码就明白了：
-```
+```java
 class MyClass {
     public synchronized void method1() {
         method2();
@@ -519,7 +519,7 @@ class MyClass {
 而对于ReentrantLock和ReentrantReadWriteLock，它默认情况下是非公平锁，但是可以设置为公平锁。
 
 看一下这2个类的源代码就清楚了：
-```
+```java
 ReentrantLook.java
 
 final static class NofairSync extends Sync {
@@ -548,12 +548,12 @@ final static class NofairSync extends Sync {
 在ReentrantLock中定义了2个静态内部类，一个是NotFairSync，一个是FairSync，分别用来实现非公平锁和公平锁。
 
 我们可以在创建ReentrantLock对象时，通过以下方式来设置锁的公平性：
-```
+```java
 ReentrantLock lock = new ReentrantLock(true);
 ```
 
 如果参数为true表示为公平锁，为fasle为非公平锁。默认情况下，如果使用无参构造器，则是非公平锁。
-```
+```java
 ReentrantLook.java
 
 public ReentrantLook() {
