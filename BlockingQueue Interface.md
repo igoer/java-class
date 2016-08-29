@@ -1,7 +1,7 @@
 # BlockingQueue interface
 
 在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建高质量的多线程程序带来极大的便利。本文详细介绍了BlockingQueue家庭中的所有成员，包括他们各自的功能以及常见使用场景。
-```
+```java
 java.util.concurrent
 	Interface BlockingQueue<E>
 
@@ -131,7 +131,7 @@ java.util.concurrent.LinkedBlockingQueue
 ArrayBlockingQueue和LinkedBlockingQueue是两个最普通也是最常用的阻塞队列，一般情况下，在处理多线程间的生产者消费者问题，使用这两个类足以。
 
 下面的代码演示了如何使用BlockingQueue：
-```
+```java
 public class BlockingQueueTest {
 
     public static void main(String[] args) throws InterruptedException {
@@ -163,7 +163,7 @@ public class BlockingQueueTest {
     }
 }
 ```
-```
+```java
 /**
  * 消费者线程
  * 
@@ -204,7 +204,7 @@ public class Consumer implements Runnable {
     private static final int      DEFAULT_RANGE_FOR_SLEEP = 1000;
 }
 ```
-```
+```java
 /**
  * 生产者线程
  * 
